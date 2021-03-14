@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.copypasteproject.R;
+import com.example.copypasteproject.copypastedisable.MyEditText;
+import com.example.copypasteproject.copypastedisable.MyEditTextListener;
+import com.example.copypasteproject.kotlin_activity.RegistrationKotlinActivity;
 import com.example.copypasteproject.utils.AppConstant;
 
 public class RegistrationJavaActivty extends AppCompatActivity {
@@ -25,6 +28,7 @@ public class RegistrationJavaActivty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_java_activty);
 
+        
         // Initialize the variables
         loadlayoutviews();
 
@@ -32,12 +36,16 @@ public class RegistrationJavaActivty extends AppCompatActivity {
         loadclicklistener();
     }
 
+
     @Override
     public void onBackPressed() {
+
         startActivity(new Intent(this, MainJavaActivity.class));
+        finish();
     }
 
     private void loadclicklistener() {
+
         txt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,11 +61,15 @@ public class RegistrationJavaActivty extends AppCompatActivity {
     }
 
 
+
+
     private void loadlayoutviews() {
         edt_name = findViewById(R.id.edtName);
         edt_contactno = findViewById(R.id.edt_contactnumber);
         edt_address = findViewById(R.id.edt_address);
         edt_pincode = findViewById(R.id.edt_pincode);
+
+
 
         txt_submit = findViewById(R.id.txtsubmit);
         rdggroup = findViewById(R.id.rdggroup);
@@ -67,6 +79,7 @@ public class RegistrationJavaActivty extends AppCompatActivity {
 
     private boolean validation() {
         boolean status = true;
+
         if (!AppConstant.NAME_PATTERN.matcher(edt_name.getText().toString().trim()).matches()) {
             status = false;
         }
