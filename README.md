@@ -1,4 +1,4 @@
-# seminarintroduction
+
 
 ## A Simple Android Login UI Application implemented Multilanguage Using JSON File
 
