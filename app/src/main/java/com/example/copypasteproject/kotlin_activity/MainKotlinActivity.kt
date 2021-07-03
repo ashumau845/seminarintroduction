@@ -4,19 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.copypasteproject.R
+import com.example.copypasteproject.databinding.ActivityMainJavaBinding
 import com.example.copypasteproject.utils.AppConstant
 import com.example.copypasteproject.utils.LanguageConstant
 import com.example.copypasteproject.utils.LanguageUtils
 import com.example.copypasteproject.utils.PreferenceManager
-import kotlinx.android.synthetic.main.activity_main_java.*
 
 
 class MainKotlinActivity : AppCompatActivity(), View.OnClickListener {
 
+
+    private lateinit var binding: ActivityMainJavaBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_java)
+//        setContentView(R.layout.activity_main_java)
+
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_main_java)
 
         if (PreferenceManager.getStringForKey(
                 applicationContext,
@@ -33,21 +39,27 @@ class MainKotlinActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun init_language() {
-        textViewSignin.text = LanguageUtils.getLanguageString(LanguageConstant.signIn)
-        tvLabelEmailId.text = LanguageUtils.getLanguageString(LanguageConstant.enterEmailID)
-        editEmailID.hint = LanguageUtils.getLanguageString(LanguageConstant.enterEmailID)
-        tvLabelpin.text = LanguageUtils.getLanguageString(LanguageConstant.enterPIN)
-        textViewSigninBtn.text = LanguageUtils.getLanguageString(LanguageConstant.signIn)
-        textForgotPassword.text = LanguageUtils.getLanguageString(LanguageConstant.forgotPin)
-        textViewRegisterBtn.text = LanguageUtils.getLanguageString(LanguageConstant.signUpRegister)
+
+        binding.apply {
+            textViewSignin.text = LanguageUtils.getLanguageString(LanguageConstant.signIn)
+            tvLabelEmailId.text = LanguageUtils.getLanguageString(LanguageConstant.enterEmailID)
+            editEmailID.hint = LanguageUtils.getLanguageString(LanguageConstant.enterEmailID)
+            tvLabelpin.text = LanguageUtils.getLanguageString(LanguageConstant.enterPIN)
+            textViewSigninBtn.text = LanguageUtils.getLanguageString(LanguageConstant.signIn)
+            textForgotPassword.text = LanguageUtils.getLanguageString(LanguageConstant.forgotPin)
+            textViewRegisterBtn.text = LanguageUtils.getLanguageString(LanguageConstant.signUpRegister)
+        }
+
 
 
     }
 
     private fun loadclicklistener() {
-        textViewSigninBtn.setOnClickListener(this)
-        textViewRegisterBtn.setOnClickListener(this)
-        rdg_language.setOnCheckedChangeListener { _, checkedId -> // find which radio button is selected
+
+
+        binding.textViewSigninBtn.setOnClickListener(this)
+        binding.textViewRegisterBtn.setOnClickListener(this)
+        binding.rdgLanguage.setOnCheckedChangeListener { _, checkedId -> // find which radio button is selected
             when (checkedId) {
                 R.id.chk_hindi -> {
                     LanguageUtils.setLanguage(applicationContext, 2)
@@ -64,9 +76,9 @@ class MainKotlinActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            textViewSignin -> {
-                if ("admin@gmail.com" == editEmailID.text.toString().trim()
-                    && "admin" == edt_useridpassword.text.toString()
+            binding.textViewSignin -> {
+                if ("admin@gmail.com" == binding.editEmailID.text.toString().trim()
+                    && "admin" == binding.edtUseridpassword.text.toString()
                 ) {
                     AppConstant.showtoast(
                         LanguageUtils.getLanguageString(LanguageConstant.loginSuccess),
@@ -82,7 +94,7 @@ class MainKotlinActivity : AppCompatActivity(), View.OnClickListener {
 
             }
 
-            textViewRegisterBtn -> {
+            binding.textViewRegisterBtn -> {
                 var intent = Intent(this, RegistrationKotlinActivity::class.java)
                 startActivity(intent)
             }

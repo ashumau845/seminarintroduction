@@ -7,48 +7,30 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.copypasteproject.R;
+import com.example.copypasteproject.databinding.ActivityMainJavaBinding;
 import com.example.copypasteproject.utils.AppConstant;
 
 
 public class MainJavaActivity extends AppCompatActivity {
-
-
-    private EditText edt_username;
-    private EditText edt_password;
-    private TextView txt_signin;
-    private TextView txt_register;
-
+    private ActivityMainJavaBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_java);
-
-        // Initialize the variables
-        loadlayoutviews();
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_main_java);
 
         // clicklisteners
         loadclicklistener();
     }
 
-
-    private void loadlayoutviews() {
-        //Edittext
-        edt_username = findViewById(R.id.editEmailID);
-        edt_password = findViewById(R.id.edt_useridpassword);
-
-        //TextView
-        txt_signin = findViewById(R.id.textViewSigninBtn);
-        txt_register = findViewById(R.id.textViewRegisterBtn);
-    }
-
     private void loadclicklistener() {
 
-        txt_signin.setOnClickListener(new View.OnClickListener() {
+        binding.textViewSigninBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("admin@gmail.com".equals(edt_username.getText().toString().trim()) && "admin".equals(edt_password.getText().toString())) {
+                if ("admin@gmail.com".equals(binding.editEmailID.getText().toString().trim()) && "admin".equals(binding.edtUseridpassword.getText().toString())) {
 
                     AppConstant.showtoast("Login Successful", getApplicationContext());
                     AppConstant.hideKeyboard(MainJavaActivity.this);
@@ -57,7 +39,7 @@ public class MainJavaActivity extends AppCompatActivity {
         });
 
 
-        txt_register.setOnClickListener(new View.OnClickListener() {
+        binding.textViewRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainJavaActivity.this, RegistrationJavaActivty.class);

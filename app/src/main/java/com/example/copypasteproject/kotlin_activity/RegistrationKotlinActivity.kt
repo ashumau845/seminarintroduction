@@ -4,33 +4,43 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.copypasteproject.R
+import com.example.copypasteproject.databinding.ActivityRegistrationJavaActivtyBinding
 import com.example.copypasteproject.utils.AppConstant
 import com.example.copypasteproject.utils.LanguageConstant
 import com.example.copypasteproject.utils.LanguageUtils
-import kotlinx.android.synthetic.main.activity_registration_java_activty.*
+
 
 class RegistrationKotlinActivity : AppCompatActivity(), View.OnClickListener {
+
+
+    private lateinit var binding: ActivityRegistrationJavaActivtyBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_registration_java_activty)
+//        setContentView(R.layout.activity_registration_java_activty)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_registration_java_activty)
 
-        edt_pincode.addListener { edt_pincode.setText("") }
+        binding.edtPincode.addListener { binding.edtPincode.setText("") }
         loadclicklistener()
         init_language()
     }
 
     private fun init_language() {
-        txtName.text = LanguageUtils.getLanguageString(LanguageConstant.enterName)
-        edtName.hint = LanguageUtils.getLanguageString(LanguageConstant.enterName)
-        txtcontactnumber.text = LanguageUtils.getLanguageString(LanguageConstant.enterMobileNumber)
-        txtgender.text = LanguageUtils.getLanguageString(LanguageConstant.gender)
-        radio_male.text = LanguageUtils.getLanguageString(LanguageConstant.male)
-        radio_female.text = LanguageUtils.getLanguageString(LanguageConstant.female)
-        txtaddress.text = LanguageUtils.getLanguageString(LanguageConstant.address)
-        txtpincode.text = LanguageUtils.getLanguageString(LanguageConstant.pincode)
-        edt_pincode.hint = LanguageUtils.getLanguageString(LanguageConstant.pincode)
-        txtsubmit.text = LanguageUtils.getLanguageString(LanguageConstant.submit)
+        binding.apply {
+            txtName.text = LanguageUtils.getLanguageString(LanguageConstant.enterName)
+            edtName.hint = LanguageUtils.getLanguageString(LanguageConstant.enterName)
+            txtcontactnumber.text = LanguageUtils.getLanguageString(LanguageConstant.enterMobileNumber)
+            txtgender.text = LanguageUtils.getLanguageString(LanguageConstant.gender)
+            radioMale.text = LanguageUtils.getLanguageString(LanguageConstant.male)
+            radioFemale.text = LanguageUtils.getLanguageString(LanguageConstant.female)
+            txtaddress.text = LanguageUtils.getLanguageString(LanguageConstant.address)
+            txtpincode.text = LanguageUtils.getLanguageString(LanguageConstant.pincode)
+            edtPincode.hint = LanguageUtils.getLanguageString(LanguageConstant.pincode)
+            txtsubmit.text = LanguageUtils.getLanguageString(LanguageConstant.submit)
+        }
+
     }
 
     override fun onBackPressed() {
@@ -38,12 +48,12 @@ class RegistrationKotlinActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun loadclicklistener() {
-        txtsubmit.setOnClickListener(this)
+        binding.txtsubmit.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v) {
-            txtsubmit -> {
+            binding.txtsubmit -> {
                 if (validation()) {
                     AppConstant.hideKeyboard(this@RegistrationKotlinActivity)
                     AppConstant.showtoast(
@@ -65,29 +75,32 @@ class RegistrationKotlinActivity : AppCompatActivity(), View.OnClickListener {
     private fun validation(): Boolean {
         var status = true
 
-        if (!AppConstant.NAME_PATTERN.matcher(edtName.text.toString().trim()).matches()) {
-            status = false
+        binding.apply {
+            if (!AppConstant.NAME_PATTERN.matcher(edtName.text.toString().trim()).matches()) {
+                status = false
+            }
+
+            if (!AppConstant.MOBILE_PATTERN.matcher(edtContactnumber.text.toString().trim())
+                    .matches()
+            ) {
+                status = false
+            }
+
+            if (!radioMale.isChecked && !radioFemale.isChecked) {
+                status = false
+            }
+
+            if (edtAddress.text.toString().trim().length <= 10) {
+                status = false
+            }
+
+            if (!AppConstant.INDIANPINCODE.matcher(edtPincode.text.toString().trim()).matches()) {
+                status = false
+            }
+
+            return status
         }
 
-        if (!AppConstant.MOBILE_PATTERN.matcher(edt_contactnumber.text.toString().trim())
-                .matches()
-        ) {
-            status = false
-        }
-
-        if (!radio_male.isChecked && !radio_female.isChecked) {
-            status = false
-        }
-
-        if (edt_address.text.toString().trim().length <= 10) {
-            status = false
-        }
-
-        if (!AppConstant.INDIANPINCODE.matcher(edt_pincode.text.toString().trim()).matches()) {
-            status = false
-        }
-
-        return status
     }
 
 
